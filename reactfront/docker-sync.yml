@@ -1,0 +1,5 @@
+version: '2'
+syncs:
+  proyecto-sync:
+    src: 'C:\proyecto\code\reactfront' # Ruta del directorio en el host que deseas sincronizar
+    dest: '/code' # Ruta del directorio en el contenedor

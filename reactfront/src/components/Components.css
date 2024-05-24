@@ -1,0 +1,162 @@
+.mgl-navBar {
+    display: flex;
+    flex-direction: row; /* Movemos la sidebar a horizontal */
+    background-color: #2a5285;
+    width: 100%; /* Ancho igual al 100% del contenedor */
+    height: 50px; /* Altura de la barra */
+    position: fixed; /* Fijar la barra en la ventana del navegador */
+    top: 0; /* Alinear la barra con la parte superior de la ventana */
+    left: 0; /* Alinear la barra con el borde izquierdo de la ventana */
+    z-index: 1000; /* Asegurarse de que la barra esté por encima del contenido */
+    display: flex;
+    align-items: center;
+}
+
+/*Ajustamos los elementos del navBar*/
+.mgl-navContainer {
+    display: flex;
+    justify-content: space-around; /* Espacio entre los elementos, sin llegar a los bordes */
+    align-items: center;
+    width: 100%; /* Ancho del contenedor completo */
+    padding: 0 20px; /* Añadir padding a los lados si es necesario */
+}
+
+.mgl-navRight {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre los elementos de la derecha */
+}
+
+/*Elementos bajo la barra de navegación, para que no se superpongan*/
+.mgl-divBellowNav {
+    margin-top: 50px;
+}
+
+.mgl-logo {
+    width: 128px;
+    height: 36px;
+}
+
+/*Lo uso para el icono de Profile*/
+.mgl-icons {
+    width: 24px;
+    height: 24px;
+}
+
+/*Carátulas en el Homepage*/
+.mgl-covers {
+  max-width: 65%;
+  min-width: 65%;
+  display: block;
+  margin: 0 auto; /* Centra la imagen horizontalmente */
+}
+
+.mgl-loginLogoutButton {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #2a5285;
+    color: white;
+    text-decoration: none; /* Evita el subrayado */
+    border-radius: 5px;
+    border: 2px solid #ffffff; /* Borde exterior */
+  }
+  
+
+.mgl-gameCard {
+    position: relative;
+    top: 50px; /*Separamos del elemeto superior 50px*/
+    display: flex;
+    align-items: center;
+    color: #222;
+    font-size: .8rem;
+    place-content: start space-evenly;
+    justify-content: space-between;
+    width: 100%; /* Ancho relativo al contenedor */
+    max-width: 600px; /* Máximo ancho permitido */
+    min-width: 380px; /* Máximo ancho permitido */
+}
+
+.mgl-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 50%; /* Ancho completo del contenedor padre (mgl-gameCard)*/
+}
+
+/*Lo utilizo en HomePage, para alojar los botones*/
+.mgl-div{
+    display: flex;
+    margin-top: -18px;
+    align-items: center; /*Alineadmos el contenido del contenedor basándonos en la altura del padre (mgl-gameCard)*/
+    justify-content: space-between;
+    width: 50%; /* Ancho completo del contenedor padre (mgl-gameCard)*/
+}
+
+.mgl-gameCard-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.mgl-link-profile{
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+
+.mgl-link-game{
+  text-decoration: none;
+  color: #000;
+  align-items: center;
+  font-weight: bold;
+}
+
+.mgl-link {
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-weight: bold;
+    border: 1px solid #000;
+    transition: .3s ease background-color;
+    color: #000;
+  }
+ 
+  /* Al pasar el ratón */
+  .mgl-link:hover {
+    background-color: #f0f0f0; 
+  }
+
+  /*UserProfile.js*/
+  .mgl-userProfile {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .mgl-section {
+    flex: 1;
+    color: #2a5285;
+    border: 2px solid #2a5285;
+    margin: 0 10px;
+    padding: 10px 46px; /* Espacio 10px superior 46px lateral */
+    width: 100%; /* Ancho relativo al contenedor */
+    max-width: 520px; /* Máximo ancho permitido */
+    min-width: 380px; /* Máximo ancho permitido */
+  }
+
+  .mgl-userProfileGames{
+    display: flex;
+    color: #000000;
+    justify-content: space-between;
+    width: 100%; /* Ancho completo del contenedor padre (mgl-section)*/
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 8px;
+  }

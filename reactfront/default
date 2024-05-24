@@ -1,0 +1,51 @@
+server {
+    listen 80 default_server;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+
+    ssl_certificate     /etc/letsencrypt/live/demolaravel.ddns.net/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/demolaravel.ddns.net/privkey.pem;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    server_name demolaravel.ddns.net;
+
+    # Configuración para servir el frontend React
+    location / {
+        root /code/reactfront/build; # Ruta al directorio de construcción de tu frontend React
+        index index.html;
+        try_files $uri /index.html;
+    }
+
+    # Configuración para reenviar solicitudes al backend Laravel
+    location /api {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Configuración adicional para el backend Laravel
+    location /images {
+        alias /code/mygamelist/public/images;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
