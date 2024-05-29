@@ -45,10 +45,16 @@ const UpdateOnList = ({ gameID, userID, accessToken, refreshGames }) => {
 
       if (response.status === 200) {
         setOnList(!onList);
-        // alert(`¡Juego ${!onList ? 'añadido a' : 'eliminado de'} tu lista con éxito!`);
-        refreshGames(); // Actualizar la lista de juegos en UserProfile.js
+        if (refreshGames) {
+          refreshGames(); // Actualizar la lista de juegos en UserProfile.js
+        }
       } else {
         alert('Hubo un problema al actualizar tu lista. Intenta nuevamente más tarde.');
+      }
+      if (!onList){
+        console.log('Juego añadido a la lista');
+      }else{
+        console.log('Juego eliminado de la lista');
       }
     } catch (error) {
       console.error('Error al actualizar la lista:', error);
@@ -57,7 +63,7 @@ const UpdateOnList = ({ gameID, userID, accessToken, refreshGames }) => {
   };
 
   return (
-    <button onClick={handleToggleOnList} className='mgl-link'>
+    <button onClick={handleToggleOnList} className={`${onList ? 'mgl-button-delete' : 'mgl-button-blue'}`}>
       {onList ? 'Eliminar de mi Lista' : 'Añadir a mi Lista'}
     </button>
   );

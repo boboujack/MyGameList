@@ -6,11 +6,11 @@ import NavBar from './NavBar';
 
 const endpoint = 'https://demolaravel.ddns.net/api'
 
-const Admin = ({ accessToken, setAccessToken, userID, setUserID, userName, setUserName } ) => {
+const Admin = ({ accessToken, setAccessToken, userID, setUserID, userName, setUserName, userRole, setUserRole } ) => {
     const [games, setGames] = useState([])
     const [users, setUsers] = useState([])
     const navigate = useNavigate();
-    const isAdmin = userID === 8;
+    const isAdmin = userRole === 'admin';
 
     useEffect(() => {
         if (!isAdmin) {
@@ -30,70 +30,56 @@ const Admin = ({ accessToken, setAccessToken, userID, setUserID, userName, setUs
       setUsers(response.data)
     }
 
-    const handleLogout = async () => {
-      if (!accessToken) {
-        alert('No se encontró el token de acceso.');
-        return;
-      }
-
-      try {
-        const response = await axios.get(`${endpoint}/logout`, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        });
-          console.log('Logout response:', response.data);
-          // Limpiar el token de acceso en el estado global o local
-          setAccessToken(null);
-          setUserID(null); 
-          setUserName(null); 
-          alert('¡Sesión cerrada con éxito!');
-      } catch (error) {
-          console.error('Error al cerrar sesión:', error);
-          alert('Se ha producido un error al cerrar sesión. Por favor, intenta nuevamente más tarde.');
-      }
-    };
-
     const deleteGame = async (id) => {
-        await axios.delete(`${endpoint}/games/${id}`)
+        await axios.delete(`${endpoint}/games/${id}`, {
+          headers: {
+              Authorization: `Bearer ${accessToken}`
+          }
+      })
         getAllGames() // Llama a getAllGames nuevamente después de eliminar el juego
     }
-
-  //Filtra la lista de todos los usuarios, menos del que ha hecho login
-  const otherUsers = users.filter(user => user.id !== userID);
 
   return (
     <>
     <div>
-      <NavBar accessToken={accessToken} handleLogout={handleLogout} userID={userID}/>
+      <NavBar 
+            accessToken={accessToken} 
+            setAccessToken={setAccessToken} 
+            setUserID={setUserID} 
+            setUserName={setUserName} 
+            setUserRole={setUserRole} 
+            userID={userID} 
+            userRole={userRole} 
+      />
     </div>
 
     <div className='mgl-divBellowNav'>
-      {games.map(game => (
-        <article className="mgl-gameCard" key={game.id}>
-          <header className="mgl-header">
-            <div className="mgl-gameCard-info">
-              <img className= "mgl-covers" src={game.image_url} alt="Imagen del juego"/>
-              <strong>{game.title}</strong>
-              <span>Fecha de salida: {game.releaseDate}</span>
-              <br />
-            </div>
-          </header>
-          <aside className="mgl-div">
-            <Link to={`/game/${game.id}`} className='mgl-link'>Más información</Link>
-            <button onClick={() => deleteGame(game.id)} >Delete</button>
-          </aside>
-        </article>
-      ))}
+      <div className='mgl-grid-admin-container-two-Objects'>
+        <Link to={`/store`} className='mgl-button'>Añadir juego</Link>
+        <Link to={'/admin/users'} className='mgl-button'>Gestión de usuarios</Link>
+      </div>
     </div>
-    <div className='mgl-divBellowNav'>
-      <div>
-        <h3 style={{ color: '#2a5285' }}>Otros usuarios:</h3>
-        {otherUsers.map(user => (
-          <article key={user.id}>
-            <Link to={`/id/${user.id}`} className='mgl-link-profile'>{user.name}</Link>
-          </article>
-        ))}
+    
+    
+
+    <div className='mgl-grid-admin-container'>
+      <div className='mgl-divBellowNav'>
+        <div className='mgl-grid-game-container'>
+          {games.map(game => (
+            <article className="mgl-gameCard" key={game.id}>
+              <header className="mgl-header">
+                  <img className= "mgl-covers" src={game.image_url} alt="Imagen del juego"/>
+                  <strong>{game.title}</strong>
+                  <span>Fecha de salida: {game.releaseDate}</span>
+                  <br/>
+              </header>
+              <aside className="mgl-gameCard-buttons">
+                <Link to={`/update/${game.id}`} className='mgl-link'>Modificar juego</Link>
+                <button onClick={() => deleteGame(game.id)} className='mgl-button-delete'>Delete</button>
+              </aside>
+            </article>
+          ))}
+        </div>
       </div>
     </div>
     </>

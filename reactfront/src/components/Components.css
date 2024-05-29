@@ -59,42 +59,76 @@
     text-decoration: none; /* Evita el subrayado */
     border-radius: 5px;
     border: 2px solid #ffffff; /* Borde exterior */
-  }
-  
+}
+
+.mgl-loginLogoutButton:hover {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: white;
+  color: #2a5285;
+  text-decoration: none; /* Evita el subrayado */
+  border-radius: 5px;
+  border: 2px solid #ffffff; /* Borde exterior */
+}
+
+.mgl-grid-admin-container-two-Objects {
+  display: grid;
+  grid-template-columns: auto auto ; /*Cada auto representa una columna*/
+  gap: 2px; /* Espacio entre los artículos */
+  justify-items: center; /* Centrar los elementos horizontalmente */
+}
+
+.mgl-grid-admin-container {
+  display: grid;
+  grid-template-columns: auto auto auto; /*Cada auto representa una columna*/
+  gap: 2px; /* Espacio entre los artículos */
+  justify-items: center; /* Centrar los elementos horizontalmente */
+}
+
+/* Contenedor de la cuadrícula para los artículos de los juegos */
+.mgl-grid-game-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 2px; /* Espacio entre los artículos */
+    justify-items: center; /* Centrar los elementos horizontalmente */
+}
 
 .mgl-gameCard {
-    position: relative;
-    top: 50px; /*Separamos del elemeto superior 50px*/
-    display: flex;
-    align-items: center;
-    color: #222;
-    font-size: .8rem;
-    place-content: start space-evenly;
-    justify-content: space-between;
-    width: 100%; /* Ancho relativo al contenedor */
-    max-width: 600px; /* Máximo ancho permitido */
-    min-width: 380px; /* Máximo ancho permitido */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #222;
+  font-size: .8rem;
+  width: 100%;
+  max-width: 300px; /* Ancho máximo para las tarjetas */
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .mgl-header {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    width: 50%; /* Ancho completo del contenedor padre (mgl-gameCard)*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
 }
-
-/*Lo utilizo en HomePage, para alojar los botones*/
-.mgl-div{
-    display: flex;
-    margin-top: -18px;
-    align-items: center; /*Alineadmos el contenido del contenedor basándonos en la altura del padre (mgl-gameCard)*/
-    justify-content: space-between;
-    width: 50%; /* Ancho completo del contenedor padre (mgl-gameCard)*/
-}
-
+/* 
 .mgl-gameCard-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.mgl-gameCard-buttons{
     display: flex;
     flex-direction: column;
+    align-items: center; /*Alineadmos el contenido del contenedor basándonos en la altura del padre (mgl-gameCard)*/
+    gap: 10px;
+    margin-top: -18px;
+    margin-bottom: 12px;
+    width: 50%; /* Ancho completo del contenedor padre (mgl-gameCard)*/
 }
 
 .mgl-link-profile{
@@ -122,16 +156,16 @@
     color: #000;
   }
  
-  /* Al pasar el ratón */
-  .mgl-link:hover {
-    background-color: #f0f0f0; 
-  }
+/* Al pasar el ratón */
+.mgl-link:hover {
+  background-color: #f0f0f0; 
+}
 
-  /*UserProfile.js*/
-  .mgl-userProfile {
-    display: flex;
-    justify-content: space-between;
-  }
+/*UserProfile.js*/
+.mgl-userProfile {
+  display: flex;
+  justify-content: space-between;
+}
   
   .mgl-section {
     flex: 1;
@@ -160,3 +194,89 @@
   input[type="checkbox"] {
     margin-right: 8px;
   }
+
+.mgl-button{
+  background-color: #2a5285;
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.mgl-button-green {
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: bold;
+  border: 2px solid #2f6d39;
+  transition: .3s ease background-color;
+  color: #2f6d39;
+}
+
+/* Al pasar el ratón */
+.mgl-button-green:hover {
+  background-color: #2f6d39; 
+  color: #ffffff;
+}
+
+.mgl-button-blue {
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: bold;
+  border: 2px solid #2a5285;
+  transition: .3s ease background-color;
+  color: #2a5285;
+}
+
+/* Al pasar el ratón */
+.mgl-button-blue:hover {
+  background-color: #2a5285; 
+  color: #ffffff;
+}
+
+.mgl-button-yellow {
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: bold;
+  border: 2px solid #dfa947;
+  transition: .3s ease background-color;
+  color: #dfa947;
+}
+
+/* Al pasar el ratón */
+.mgl-button-yellow:hover {
+  background-color: #dfa947; 
+  color: #ffffff;
+}
+
+.mgl-button-delete {
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: bold;
+  border: 2px solid #b12828;
+  transition: .3s ease background-color;
+  color: #b12828;
+}
+
+/* Al pasar el ratón */
+.mgl-button-delete:hover {
+  background-color: #b12828; 
+  color: #ffffff;
+}

@@ -7,7 +7,7 @@ import DeleteAccount from './DeleteAccount';
 
 const endpoint = 'https://demolaravel.ddns.net/api';
 
-const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, setUserName }) => {
+const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, setUserName, userRole, setUserRole }) => {
   const { id } = useParams(); // Obtener el ID de la URL
   const navigate = useNavigate();
   const isOwner = parseInt(id) === userID;
@@ -31,6 +31,7 @@ const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, se
         const userData = response.data[0]; // Extraer el primer objeto de la lista
         setName(userData.name);
         setMail(userData.email);
+        setUserRole(null);
         setLoading(false); // Data has been loaded
       })
       .catch(error => {
@@ -66,29 +67,6 @@ const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, se
     }
   };
 
-  const handleLogout = async () => {
-    if (!accessToken) {
-      alert('No se encontró el token de acceso.');
-      return;
-    }
-
-    try {
-      const response = await axios.get(`${endpoint}/logout`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-      setAccessToken(null);
-      setUserID(null);
-      setUserName(null);
-      alert('¡Sesión cerrada con éxito!');
-      navigate('/');
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error);
-      alert('Se ha producido un error al cerrar sesión. Por favor, intenta nuevamente más tarde.');
-    }
-  };
-
   /* Enviaremos esta función para restablecer a null los props,
   cuando borremos una cuenta */
   const handleAccountDeleted = () => {
@@ -104,14 +82,23 @@ const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, se
   return (
     <>
       <div>
-        <NavBar accessToken={accessToken} handleLogout={handleLogout} userID={userID} />
+        <NavBar 
+              accessToken={accessToken} 
+              setAccessToken={setAccessToken} 
+              setUserID={setUserID} 
+              setUserName={setUserName} 
+              setUserRole={setUserRole} 
+              userID={userID} 
+              userRole={userRole} 
+        />
       </div>
+
       {isOwner && (
         <div className='mgl-divBellowNav'>
           <h2 style={{ color: '#2a5285' }}>Configuración</h2>
           <form onSubmit={handleUpdateProfile}>
             <div>
-              <label htmlFor="name">Nombre:</label>
+              <label htmlFor="name">Nombre:</label><br/>
               <input
                 type="text"
                 id="name"
@@ -121,7 +108,7 @@ const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, se
               <br/>
             </div>
             <div>
-              <label htmlFor="email">Email:</label>
+              <label htmlFor="email">Email:</label><br/>
               <input
                 type="email"
                 id="email"
@@ -130,7 +117,8 @@ const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, se
               />
               <br/>
             </div>
-            <button type="submit">Actualizar perfil</button>
+            <br/>
+            <button type="submit" className='mgl-button-updateBlue'>Actualizar perfil</button>
           </form>
           <div className='mgl-divBellowNav'>
             <DeleteAccount

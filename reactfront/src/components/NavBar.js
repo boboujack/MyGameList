@@ -1,7 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const NavBar = ({ accessToken, handleLogout, userID }) => {
+const endpoint = 'https://demolaravel.ddns.net/api';
+
+const NavBar = ({ accessToken, setAccessToken, setUserID, setUserName, setUserRole, userID, userRole }) => {
+
+  const handleLogout = async () => {
+    if (!accessToken) {
+      alert('No se encontró el token de acceso.');
+      return;
+    }
+  
+    try {
+      const response = await axios.get(`${endpoint}/logout`, {
+          headers: {
+              Authorization: `Bearer ${accessToken}`
+          }
+      });
+        console.log('Logout response:', response.data);
+        // Limpiar el token de acceso en el estado global o local
+        setAccessToken(null);
+        setUserID(null); 
+        setUserName(null); 
+        setUserRole(null);
+    } catch (error) {
+        console.error('Error al cerrar sesión:', error);
+        alert('Se ha producido un error al cerrar sesión. Por favor, intenta nuevamente más tarde.');
+    }
+  };
+
   console.log('NavBar userID:', userID);
   return (
     <nav className="mgl-navBar">
@@ -14,9 +42,17 @@ const NavBar = ({ accessToken, handleLogout, userID }) => {
             {accessToken ? (
             <>
               <button onClick={handleLogout} className='mgl-loginLogoutButton'>Cerrar sesión</button>
-              <Link to={`/id/${userID}`}>
-                <img className="mgl-icons" src="https://demolaravel.ddns.net/images/profile.png" alt="Perfil" />
+              {userRole !== "admin" && (
+                <Link to={`/id/${userID}`}>
+                  <img className="mgl-icons" src="https://demolaravel.ddns.net/images/profile.png" alt="Perfil" />
+                </Link>
+              )}
+              {/* Si el user el admin, podemos ir al panel */}
+              {userRole === "admin" && 
+                <Link to={`/admin`}>
+                <img className="mgl-icons" src="https://demolaravel.ddns.net/images/settings.png" alt="Admin" />
               </Link>
+              }
             </>
           ) : (
             <>

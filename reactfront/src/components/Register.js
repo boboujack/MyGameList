@@ -50,9 +50,9 @@ const Register = ({ setAccessToken, setUserID, setUserName }) => {
       </div>
     </nav>
     <div className='mgl-divBellowNav'>
-        <h2>Crear cuenta</h2>
+        <h2 style={{ color: '#2a5285' }}>Crear cuenta</h2>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Nombre:</label><br />
+          <label htmlFor="email">Nombre:</label><br/>
           <input
             type="text"
             id="name"
@@ -61,7 +61,7 @@ const Register = ({ setAccessToken, setUserID, setUserName }) => {
             onChange={(e) => setName(e.target.value)}
             required />
             <br/>
-          <label htmlFor="email">Email:</label><br />
+          <label htmlFor="email">Email:</label><br/>
           <input
             type="email"
             id="email"
@@ -69,8 +69,8 @@ const Register = ({ setAccessToken, setUserID, setUserName }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required />
-            <br />
-          <label htmlFor="password">Contraseña:</label><br />
+            <br/>
+          <label htmlFor="password">Contraseña:</label><br/>
           <input
             type="password"
             id="password"
@@ -78,7 +78,8 @@ const Register = ({ setAccessToken, setUserID, setUserName }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required /><br/>
-          <button type="submit">Registrarse</button>
+          <br/>
+          <button type="submit" className='mgl-button-blue'>Registrarse</button>
         </form>
       </div>
       </>

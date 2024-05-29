@@ -48,11 +48,12 @@ class GameController extends Controller
         return response()->json($games);*/
     }
 
-    //Muestra solo los games
+    //Muestra solo los juegos
     public function indexAllGames()
     {
-        //Se almacena la petición en cache durante 60 segundos
-        $games = Cache::remember('games_all', 60, function () {
+        //Se almacena la petición en cache durante 600 segundos
+        $games = Cache::remember('games_all', 600, function () {
+            \Log::info('Showing game list');
             return Game::all();
         });
     
@@ -97,17 +98,21 @@ class GameController extends Controller
         return response()->json($data);
     }
 
-
     //Devolvemos el juego
     public function show(Game $game)
     {
-        $game->load('users'); // Cargar los datos de la tabla pivote para un juego específico
-        $data = [
-            'game' => $game
-        ];
+        /*Almacenasmos en cache la petición, de cada juego */
+        $data = Cache::remember('game_' . $game->id, 600, function () use ($game) {
+            $game->load('users'); // Cargar los datos de la tabla pivote para un juego específico
+            
+            \Log::info('Showing game ' . $game->id);
+            return [
+                'game' => $game
+            ];
+        });
+    
         return response()->json($data);
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -122,14 +127,29 @@ class GameController extends Controller
      */
     public function update(Request $request, Game $game)
     {
-        $game->title= $request->title;
-        $game->releaseDate= $request->releaseDate;
-        $game->synopsis= $request->synopsis;
-        $game->image_url= $request->image_url;
+        if ($request->has('title')) {
+            $game->title = $request->title;
+        }
+
+        if ($request->has('releaseDate')) {
+            $game->releaseDate = $request->releaseDate;
+        }
+
+        if ($request->has('synopsis')) {
+            $game->synopsis = $request->synopsis;
+        }
+
+        if ($request->has('image_url')) {
+            $game->image_url = $request->image_url;
+        }
+        
+        // Limpiamos el caché después de agregar un nuevo juego
+        Cache::forget('games_all');
+        // Limpiamos el caché del juego específico que se ha actualizado
+        Cache::forget('game_' . $game->id);
+
         $game->save();
 
-        // Limpiamos el caché después de actualizar un nuevo juego
-        Cache::forget('games_all');
 
         // Actualizar el estado de completado en la tabla pivote
         if ($request->has('user_id') && $request->has('statusCompleted')) {
@@ -158,6 +178,8 @@ class GameController extends Controller
         
         // Limpiamos el caché después de actualizar un nuevo juego
         Cache::forget('games_all');
+        // Limpiamos el caché del juego específico que se ha actualizado
+        Cache::forget('game_' . $game->id);
 
         $game->save();
         $game->load('users');
@@ -179,6 +201,8 @@ class GameController extends Controller
         
         // Limpiamos el caché después de actualizar un nuevo juego
         Cache::forget('games_all');
+        // Limpiamos el caché del juego específico que se ha actualizado
+        Cache::forget('game_' . $game->id);
 
         $game->save();
         $game->load('users');
@@ -199,8 +223,10 @@ class GameController extends Controller
     
             $game-> delete();
     
-            // Limpiamos el caché después de borrar un nuevo juego
+            // Limpiamos el caché después de actualizar un nuevo juego
             Cache::forget('games_all');
+            // Limpiamos el caché del juego específico que se ha actualizado
+            Cache::forget('game_' . $game->id);
     
             //Devolvemos el resultado
             return response()->json(['message' => 'Juego eliminado correctamente.']);

@@ -59,7 +59,8 @@ class AuthController extends Controller
 
         $user = User::where('email', $request['email'])->firstOrFail();
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Crear el token de acceso con un tiempo de expiración de 7 días
+        $token = $user->createToken('auth_token', ['expires_in' => 60 * 24 * 7])->plainTextToken;
 
         return response()->json([
             'message' => 'Hi ' . $user->name, // Añadida una clave para el mensaje

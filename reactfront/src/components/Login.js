@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 
-const Login = ({ setAccessToken, setUserID, setUserName }) => {
+const Login = ({ setAccessToken, setUserID, setUserName, setUserRole }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -23,12 +23,19 @@ const Login = ({ setAccessToken, setUserID, setUserName }) => {
       if (response.status === 200) {
         const { accessToken, user } = response.data;
 
+        /*LocalStore lo usaremos para, que al refrescar la web,
+        no perdamos la sesión iniciada*/
+        localStorage.setItem('userID', user.id);
+        localStorage.setItem('userName', user.name);
+        localStorage.setItem('userRole', user.role);
+        localStorage.setItem('accessToken', accessToken);
+
         /*Almacenamos los props/variables de estado globales*/
         setUserID(user.id);
         setUserName(user.name);
+        setUserRole(user.role);
         setAccessToken(accessToken);
         
-        // alert('¡Inicio de sesión exitoso!');
         navigate('/'); // Redirigir al usuario a HomePage
       } else {
         alert('Error al iniciar sesión. Por favor, verifica tus credenciales.');
@@ -51,7 +58,7 @@ const Login = ({ setAccessToken, setUserID, setUserName }) => {
     <div className='mgl-divBellowNav'>
         <h2>Iniciar sesión</h2>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Email:</label><br />
+          <label htmlFor="email">Email:</label><br/>
           <input
             type="email"
             id="email"
@@ -59,7 +66,7 @@ const Login = ({ setAccessToken, setUserID, setUserName }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required /><br />
-          <label htmlFor="password">Contraseña:</label><br />
+          <label htmlFor="password">Contraseña:</label><br/>
           <input
             type="password"
             id="password"

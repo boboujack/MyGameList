@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Cache;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/redis-test', function () {
+    Cache::store('redis')->put('test_key', 'test_value', 10);
+
+    if (Cache::store('redis')->has('test_key')) {
+        return 'Redis is working!';
+    } else {
+        return 'Redis is not working!';
+    }
 });

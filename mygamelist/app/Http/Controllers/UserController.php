@@ -4,26 +4,56 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
 
     public function allUsers()
     {
-        $users = User::all(); // Obtener todos los usuarios
+        $users = Cache::remember('users_all', 600, function () {
+            $users = User::all(); // Obtener todos los usuarios
+    
+            $formattedUsers = [];
+    
+            foreach ($users as $user) {
+                $userData = [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'role' => $user->role
+                ];
+    
+                $formattedUsers[] = $userData;
+            }
+    
+            return $formattedUsers;
+        });
+    
+        \Log::info('Showing user list');
+        return response()->json($users);
+    }
+    
 
-        $formattedUsers = [];
+    public function allUsersOld()
+    {
+            $users = User::all(); // Obtener todos los usuarios
     
-        foreach ($users as $user) {
-            $userData = [
-                'id' => $user->id,
-                'name' => $user->name
-            ];
+            $formattedUsers = [];
     
-            $formattedUsers[] = $userData;
-        }
+            foreach ($users as $user) {
+                $userData = [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'role' => $user->role
+                ];
     
-        return response()->json($formattedUsers);
+                $formattedUsers[] = $userData;
+            }
+    
+            return $formattedUsers;
+    
+        \Log::info('Showing user list');
+        return response()->json($users);
 
     }
 
@@ -38,6 +68,7 @@ class UserController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'role' => $user->role,
                 'email_verified_at' => $user->email_verified_at,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
@@ -78,6 +109,10 @@ class UserController extends Controller
         if ($request->has('profileDescription')) {
             $user->profileDescription = $request->profileDescription;
         }
+        
+        if ($request->has('role')) {
+            $user->role = $request->role;
+        }
         $user->save();
 
         //Devolvemos la instancia actualizada
@@ -85,7 +120,8 @@ class UserController extends Controller
             'message'=> 'User updated successfully',
             'user'=> $user
         ];
-
+        // Limpiamos el caché después de actualizar un usuario
+        Cache::forget('users_all');
         return response()->json($user);
     }
 
@@ -99,7 +135,8 @@ class UserController extends Controller
             'message'=> 'User updated successfully',
             'user'=> $user
         ];
-
+        // Limpiamos el caché después de actualizar un usuario
+        Cache::forget('users_all');
         return response()->json($user);
     }
 
@@ -117,6 +154,7 @@ class UserController extends Controller
                 'user_id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'role' => $user->role,
                 'id' => $game->id,
                 'title' => $game->title,
                 'releaseDate' => $game->releaseDate,
@@ -152,7 +190,8 @@ class UserController extends Controller
     
             // Eliminar el usuario
             $user->delete();
-    
+            // Limpiamos el caché después de eliminar un usuario
+            Cache::forget('users_all');
             return response()->json(['message' => 'Usuario y relaciones eliminadas con éxito.']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al eliminar el usuario.'], 500);
