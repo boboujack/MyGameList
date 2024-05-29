@@ -44,16 +44,22 @@ const AdminUsers = ({ accessToken, setAccessToken, userID, setUserID, userName, 
 
     <div className='mgl-divBellowNav'>
     <h3 style={{ color: '#2a5285' }}>Usuarios:</h3>
-          {otherUsers.map(user => (
-            <article key={user.id}>
-              <Link to={`/id/${user.id}`} className='mgl-link-profile'>{user.name}</Link>
-              <DeleteAccount
-                  accessToken={accessToken}
-                  userID={user.id}
-                  userName={user.name}/>
-            </article>
-          ))}
-          
+        {!users.length ? (
+          <div className='mgl-divBellowNav'>Cargando...</div>
+        ) : (
+          <>
+            {otherUsers.map(user => (
+              <article key={user.id} className='mgl-grid-admin-users-container'>
+                <Link to={`/id/${user.id}`} className='mgl-link-profile'>{user.name}</Link>
+                <DeleteAccount
+                    accessToken={accessToken}
+                    userID={user.id}
+                    userName={user.name}/>
+                <br/>
+              </article>
+            ))}
+          </>
+         )}
     <Link to={`/admin`} className='mgl-button'>Volver</Link>
     </div>
     </>

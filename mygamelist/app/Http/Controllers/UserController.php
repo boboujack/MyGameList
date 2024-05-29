@@ -32,30 +32,6 @@ class UserController extends Controller
         \Log::info('Showing user list');
         return response()->json($users);
     }
-    
-
-    public function allUsersOld()
-    {
-            $users = User::all(); // Obtener todos los usuarios
-    
-            $formattedUsers = [];
-    
-            foreach ($users as $user) {
-                $userData = [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'role' => $user->role
-                ];
-    
-                $formattedUsers[] = $userData;
-            }
-    
-            return $formattedUsers;
-    
-        \Log::info('Showing user list');
-        return response()->json($users);
-
-    }
 
     public function index()
     {

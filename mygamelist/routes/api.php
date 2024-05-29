@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/*API soporta x peticiones por minuto (Configurado en kernel.php) */
+/*API soporta x peticiones por minuto (Configurado en kernel.php y RouteServiceProvider) */
 Route::middleware('api')->group(function () {
     Route::get('/redis-test', function () {
         Cache::store('redis')->put('test_key', 'test_value', 10);

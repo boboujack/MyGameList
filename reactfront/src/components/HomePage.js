@@ -42,43 +42,49 @@ const HomePage = ({ accessToken, setAccessToken, userID, setUserID, setUserName,
           userRole={userRole} 
     />
     </div>
-
-    <div className='mgl-divBellowNav'>
-      <div className='mgl-grid-game-container'>
-        {games.map(game => (
-          <article className="mgl-gameCard" key={game.id}>
-            <header className="mgl-header">
-                <img className= "mgl-covers" src={game.image_url} alt="Imagen del juego"/>
-                <strong>{game.title}</strong>
-                <span>Fecha de salida: {game.releaseDate}</span>
-                <br/>
-            </header>
-            <aside className="mgl-gameCard-buttons">
-              <Link to={`/game/${game.id}`} className='mgl-button-green'>Más información</Link>
-              {accessToken && (
-                  <UpdateOnList
-                    gameID={game.id} 
-                    userID={userID} 
-                    accessToken={accessToken} 
-                    refreshGames={getAllGames}
-                  />
-              )}
-            </aside>
-          </article>
-        ))}
+  
+    {!games.length ? (
+      <div className='mgl-divBellowNav'>Cargando...</div>
+    ) : (
+      <>
+      <div className='mgl-divBellowNav'>
+        <div className='mgl-grid-game-container'>
+          {games.map(game => (
+            <article className="mgl-gameCard" key={game.id}>
+              <header className="mgl-header">
+                  <img className= "mgl-covers" src={game.image_url} alt="Imagen del juego"/>
+                  <strong>{game.title}</strong>
+                  <span>Fecha de salida: {game.releaseDate}</span>
+                  <br/>
+              </header>
+              <aside className="mgl-gameCard-buttons">
+                <Link to={`/game/${game.id}`} className='mgl-button-green'>Más información</Link>
+                {accessToken && (
+                    <UpdateOnList
+                      gameID={game.id} 
+                      userID={userID} 
+                      accessToken={accessToken} 
+                      refreshGames={getAllGames}
+                    />
+                )}
+              </aside>
+            </article>
+          ))}
+        </div>
       </div>
-    </div>
 
-    <div className='mgl-divBellowNav'>
-      <div>
-        <h3 style={{ color: '#2a5285' }}>Otros usuarios:</h3>
-        {otherUsers.map(user => (
-          <article key={user.id}>
-            <Link to={`/id/${user.id}`} className='mgl-link-profile'>{user.name}</Link>
-          </article>
-        ))}
+      <div className='mgl-divBellowNav'>
+        <div>
+          <h3 style={{ color: '#2a5285' }}>Otros usuarios:</h3>
+          {otherUsers.map(user => (
+            <article key={user.id}>
+              <Link to={`/id/${user.id}`} className='mgl-link-profile'>{user.name}</Link>
+            </article>
+          ))}
+        </div>
       </div>
-    </div>
+      </>
+    )}
 
     {/* <div className='mgl-divBellowNav'>
       <p>Token de acceso: {accessToken}</p>

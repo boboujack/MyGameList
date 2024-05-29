@@ -75,10 +75,6 @@ const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, se
     setUserName(null);
   };
 
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
-
   return (
     <>
       <div>
@@ -92,44 +88,49 @@ const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, se
               userRole={userRole} 
         />
       </div>
-
-      {isOwner && (
-        <div className='mgl-divBellowNav'>
-          <h2 style={{ color: '#2a5285' }}>Configuración</h2>
-          <form onSubmit={handleUpdateProfile}>
-            <div>
-              <label htmlFor="name">Nombre:</label><br/>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <br/>
-            </div>
-            <div>
-              <label htmlFor="email">Email:</label><br/>
-              <input
-                type="email"
-                id="email"
-                value={mail}
-                onChange={(e) => setMail(e.target.value)}
-              />
-              <br/>
-            </div>
-            <br/>
-            <button type="submit" className='mgl-button-updateBlue'>Actualizar perfil</button>
-          </form>
+      {loading ? (
+        <div className='mgl-divBellowNav'>Cargando...</div>
+      ) : (
+      <>
+        {isOwner && (
           <div className='mgl-divBellowNav'>
-            <DeleteAccount
-              accessToken={accessToken}
-              userID={userID}
-              userName={userName}
-              navigate={navigate}
-              onAccountDeleted={handleAccountDeleted}
-            />
+            <h2 style={{ color: '#2a5285' }}>Configuración</h2>
+            <form onSubmit={handleUpdateProfile}>
+              <div>
+                <label htmlFor="name">Nombre:</label><br/>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <br/>
+              </div>
+              <div>
+                <label htmlFor="email">Email:</label><br/>
+                <input
+                  type="email"
+                  id="email"
+                  value={mail}
+                  onChange={(e) => setMail(e.target.value)}
+                />
+                <br/>
+              </div>
+              <br/>
+              <button type="submit" className='mgl-button-updateBlue'>Actualizar perfil</button>
+            </form>
+            <div className='mgl-divBellowNav'>
+              <DeleteAccount
+                accessToken={accessToken}
+                userID={userID}
+                userName={userName}
+                navigate={navigate}
+                onAccountDeleted={handleAccountDeleted}
+              />
+            </div>
           </div>
-        </div>
+        )}
+      </>
       )}
     </>
   );

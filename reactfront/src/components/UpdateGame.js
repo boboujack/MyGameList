@@ -69,47 +69,50 @@ const UpdateGame = ({ accessToken, setAccessToken, userID, setUserID, setUserNam
                 userRole={userRole} 
         />
         </div>
-        
-        <div className='mgl-divBellowNav'>
-            <h3>Actualizando {title}</h3>
-            <img className= "mgl-covers" src={image_url} alt="Imagen del juego"/>
-            <form onSubmit={update}>
-                <div>
-                    <label>Titulo</label><br/>
-                    <input style={{ minWidth: '600px' }}
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        type='text'
-                        className='form-control' />
-                </div>
-                <div>
-                    <label>Fecha de lanzamiento</label><br/>
-                    <input style={{ minWidth: '600px' }}
-                        value={releaseDate}
-                        onChange={(e) => setReleaseDate(e.target.value)}
-                        type='text'
-                        className='form-control' />
-                </div>
-                <div>
-                    <label>Acerca de</label><br/>
-                    <textarea style={{ minHeight: '200px', minWidth: '600px' }}
-                        value={synopsis}
-                        onChange={(e) => setSynopsis(e.target.value)}
-                        type='text'
-                        className='form-control' />
-                </div>
-                <div>
-                    <label>Image URL</label><br/>
-                    <input style={{ minWidth: '600px' }}
-                        value={image_url}
-                        onChange={(e) => setImage_url(e.target.value)}
-                        type='text'
-                        className='form-control' />
-                    <br/>
-                </div>
-                <button type='submit' className='mgl-button'>Actualizar</button>
-            </form>
-        </div>
+        {!title ? (
+            <div className='mgl-divBellowNav'>Cargando...</div>
+        ) : (
+            <div className='mgl-divBellowNav'>
+                <h3>Actualizando {title}</h3>
+                <img className= "mgl-covers" src={image_url} alt="Imagen del juego"/>
+                <form onSubmit={update}>
+                    <div>
+                        <label>Titulo</label><br/>
+                        <input style={{ minWidth: '600px' }}
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            type='text'
+                            className='form-control' />
+                    </div>
+                    <div>
+                        <label>Fecha de lanzamiento</label><br/>
+                        <input style={{ minWidth: '600px' }}
+                            value={releaseDate}
+                            onChange={(e) => setReleaseDate(e.target.value)}
+                            type='text'
+                            className='form-control' />
+                    </div>
+                    <div>
+                        <label>Acerca de</label><br/>
+                        <textarea style={{ minHeight: '200px', minWidth: '600px' }}
+                            value={synopsis}
+                            onChange={(e) => setSynopsis(e.target.value)}
+                            type='text'
+                            className='form-control' />
+                    </div>
+                    <div>
+                        <label>Image URL</label><br/>
+                        <input style={{ minWidth: '600px' }}
+                            value={image_url}
+                            onChange={(e) => setImage_url(e.target.value)}
+                            type='text'
+                            className='form-control' />
+                        <br/>
+                    </div>
+                    <button type='submit' className='mgl-button'>Actualizar</button>
+                </form>
+            </div>
+        )}
         </>
     );
 };

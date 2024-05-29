@@ -49,9 +49,14 @@ const NavBar = ({ accessToken, setAccessToken, setUserID, setUserName, setUserRo
               )}
               {/* Si el user el admin, podemos ir al panel */}
               {userRole === "admin" && 
+                <>
                 <Link to={`/admin`}>
-                <img className="mgl-icons" src="https://demolaravel.ddns.net/images/settings.png" alt="Admin" />
-              </Link>
+                  <img className="mgl-icons" src="https://demolaravel.ddns.net/images/settings.png" alt="Admin" />
+                </Link>
+                <Link to={`/id/${userID}`}>
+                    <img className="mgl-icons" src="https://demolaravel.ddns.net/images/profile.png" alt="Perfil" />
+                </Link>
+                </>
               }
             </>
           ) : (

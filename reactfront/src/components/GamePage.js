@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './NavBar';
 import UpdateOnList from './UpdateOnList';
@@ -11,6 +11,7 @@ const GamePage = ({ accessToken, setAccessToken, userID, setUserID, setUserName,
   "<Route path="/game/:id" element={ <GamePage/> }/>"*/
   const { id } = useParams();
   const [game, setGame] = useState(null);
+  const isAdmin = userRole === 'admin';
 
   useEffect(() => {
     const getGame = async () => {
@@ -20,10 +21,6 @@ const GamePage = ({ accessToken, setAccessToken, userID, setUserID, setUserName,
     };
     getGame();
   }, [id]);//Cada vez que el id cambien se ejecuta de nuevo el useEffect
-
-  if (!game) {
-    return <div>Cargando...</div>; // Mientras game sea null
-  }
 
 return (
   <>
@@ -37,24 +34,33 @@ return (
           userID={userID} 
           userRole={userRole} 
     />
-  </div>
-    <div className='mgl-divBellowNav'>
-      {/* Es necesario usar game.game, por la estructura del JS */}
-      <img src={game.game.image_url} alt="Imagen del juego"/>
-      <h2>{game.game.title}</h2>
-      <p>Fecha de salida: {game.game.releaseDate}</p>
-      <p style={{ maxWidth: '900px' }}>Acerca de: {game.game.synopsis}</p>
-      <br/>
-      {/* Si tengo accessToken puedo añadirlo o quitarlo de mi lista */}
-      {accessToken && (
-        <UpdateOnList
-          gameID={game.game.id} 
-          userID={userID} 
-          accessToken={accessToken}
-        />
-      )}
     </div>
-    </>
+    {!game ? (
+        <div className='mgl-divBellowNav'>Cargando...</div>
+      ) : (
+      <div className='mgl-divBellowNav'>
+        {/* Es necesario usar game.game, por la estructura del JS */}
+        <img src={game.game.image_url} alt="Imagen del juego"/>
+        <h2>{game.game.title}</h2>
+        <p>Fecha de salida: {game.game.releaseDate}</p>
+        <p style={{ maxWidth: '900px' }}>Acerca de: {game.game.synopsis}</p>
+        <br/>
+        {/* Si tengo accessToken puedo añadirlo o quitarlo de mi lista */}
+        {accessToken && (
+          <UpdateOnList
+            gameID={game.game.id} 
+            userID={userID} 
+            accessToken={accessToken}
+          />
+        )}
+        <br/>
+        <br/>
+        {isAdmin && (
+            <Link to={`/update/${game.game.id}`} className='mgl-button-yellow'>Modificar juego</Link>
+        )}
+      </div>
+    )}
+  </>
   );
 }
 

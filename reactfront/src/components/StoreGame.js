@@ -11,7 +11,7 @@ const StoreGame = ({ accessToken, setAccessToken, userID, setUserID, setUserName
     const [title, setTitle] = useState('');
     const [releaseDate, setReleaseDate] = useState('');
     const [synopsis, setSynopsis] = useState('');
-    const [image_url, setImage_url] = useState('');
+    const [image_url, setImage_url] = useState('https://demolaravel.ddns.net/images/default.png');
     const navigate = useNavigate();
     const isAdmin = userRole === 'admin';
 
@@ -56,6 +56,7 @@ const StoreGame = ({ accessToken, setAccessToken, userID, setUserID, setUserName
     
     <div className='mgl-divBellowNav'>
         <h3>Añadir juego</h3>
+        <p style={{ fontStyle: 'italic' }}>No hace falta añadir imágen</p>
         <form onSubmit={store}>
             <div>
                 <label className='form-label'>Title</label><br/>

@@ -71,18 +71,32 @@
   border: 2px solid #ffffff; /* Borde exterior */
 }
 
-.mgl-grid-admin-container-two-Objects {
+/*Lo uso en Admin.js y GamePage.js*/
+.mgl-grid-container-two-Objects {
   display: grid;
   grid-template-columns: auto auto ; /*Cada auto representa una columna*/
-  gap: 2px; /* Espacio entre los artículos */
-  justify-items: center; /* Centrar los elementos horizontalmente */
+  gap: 16px; /* Espacio entre los artículos */
+  justify-items: center;
 }
 
+/*Para el grid de juegos*/
 .mgl-grid-admin-container {
   display: grid;
   grid-template-columns: auto auto auto; /*Cada auto representa una columna*/
-  gap: 2px; /* Espacio entre los artículos */
+  gap: 2px;
   justify-items: center; /* Centrar los elementos horizontalmente */
+}
+
+.mgl-grid-admin-users-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Utilizar fracciones para que las columnas ocupen el mismo espacio */
+  column-gap: 16px;
+  justify-items: center; /* Eje horizontal */
+  align-items: center; /* Eje vertical */
+}
+
+.mgl-grid-admin-users-container > article {
+  margin-bottom: 16px; /* Espacio entre las filas */
 }
 
 /* Contenedor de la cuadrícula para los artículos de los juegos */
@@ -149,7 +163,7 @@
     cursor: pointer;
     border: 0;
     border-radius: 999px;
-    padding: 6px 12px;
+    padding: 3px 12px;
     font-weight: bold;
     border: 1px solid #000;
     transition: .3s ease background-color;
@@ -199,7 +213,7 @@
   background-color: #2a5285;
   border: none;
   color: white;
-  padding: 12px 28px;
+  padding: 10px 28px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -214,7 +228,7 @@
   cursor: pointer;
   border: 0;
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 3px 12px;
   font-weight: bold;
   border: 2px solid #2f6d39;
   transition: .3s ease background-color;
@@ -232,7 +246,7 @@
   cursor: pointer;
   border: 0;
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 3px 12px;
   font-weight: bold;
   border: 2px solid #2a5285;
   transition: .3s ease background-color;
@@ -250,7 +264,7 @@
   cursor: pointer;
   border: 0;
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 3px 12px;
   font-weight: bold;
   border: 2px solid #dfa947;
   transition: .3s ease background-color;
@@ -265,10 +279,11 @@
 
 .mgl-button-delete {
   text-decoration: none;
+  font-size: .8rem;
   cursor: pointer;
   border: 0;
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 3px 10px;
   font-weight: bold;
   border: 2px solid #b12828;
   transition: .3s ease background-color;
