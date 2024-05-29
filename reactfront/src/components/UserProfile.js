@@ -63,55 +63,74 @@ const UserProfile = ({ accessToken, setAccessToken, userID, setUserID, userName,
                 )}
               </div>
 
-              <div className='mgl-userProfile'>
-                <div className='mgl-section'>
-                    <h2>Completados</h2>
-                    {completedGames.length > 0 ? (
-                      completedGames.map(game => (
-                        <div key={game.id} className='mgl-userProfileGames'>
-                          <Link to={`/game/${game.id}`} className='mgl-link-game'>{game.title}</Link>
-                          {isOwner && (
-                            <UpdateStatusCompleted
-                            gameID={game.id} 
-                            userID={userID} 
-                            accessToken={accessToken} 
-                            /*Enviamos la función como prop a UpdateStatusCompleted,
-                            para que cuando actualice el status refresque la lista*/
-                            refreshGames={getAllGames}
-                            />
-                          )}
-                        </div>
-                      ))
-                    ) : (
-                      <p>Sin juegos completados.</p>
-                    )}
+              <div className='mgl-section'>
+                <h2>Completados</h2>
+                {/* Según el valor de isOwner ajustamos las columnas */}
+                <div className='mgl-section-grid header' style={{ gridTemplateColumns: isOwner ? '0.6fr 0.2fr 0.2fr' : '1fr' }}>
+                  {completedGames.length > 0 && <strong style={{marginRight: `auto`}}>Juego</strong>}
+                  {completedGames.length > 0 && isOwner && <strong>¿Completado?</strong>}
+                  {completedGames.length > 0 && isOwner && <strong>Eliminar</strong>}
                 </div>
-                
-                <div className='mgl-section'>
-                    <h2>Pendientes</h2>
-                    {pendingGames.length > 0 ? (
-                      pendingGames.map(game => (
-                        <div key={game.id} className='mgl-userProfileGames'>
-                          <Link to={`/game/${game.id}`} className='mgl-link-game'>{game.title}</Link>
-                          {isOwner && (
-                            <UpdateStatusCompleted
-                            gameID={game.id} 
-                            userID={userID} 
-                            accessToken={accessToken} 
-                            /*Enviamos la función como prop a UpdateStatusCompleted,
-                            para que cuando actualice el status refresque la lista*/
-                            refreshGames={getAllGames}
-                            />
-                          )}
-                        </div>
-                      ))
-                    ) : (
-                      <p>Sin juegos pendientes.</p>
-                    )}
-                </div>
+                {completedGames.length > 0 ? (
+                  completedGames.map(game => (
+                    <div key={game.id} className='mgl-section-grid' style={{ gridTemplateColumns: isOwner ? '0.6fr 0.2fr 0.2fr' : '1fr' }}>
+                      <Link to={`/game/${game.id}`} className='mgl-link-game'>{game.title}</Link>
+                      {isOwner && (
+                        <>
+                          <UpdateStatusCompleted
+                            gameID={game.id}
+                            userID={userID}
+                            accessToken={accessToken}
+                            refreshGames={getAllGames} />
+                          <UpdateOnList
+                            gameID={game.id}
+                            userID={userID}
+                            accessToken={accessToken}
+                            refreshGames={getAllGames} />
+                        </>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <p>Sin juegos completados.</p>
+                )}
               </div>
             <br/>
             <div>
+
+            <div className='mgl-section'>
+              <h2>Pendientes</h2>
+              {/* Según el valor de isOwner ajustamos las columnas */}
+              <div className='mgl-section-grid header' style={{ gridTemplateColumns: isOwner ? '0.6fr 0.2fr 0.2fr' : '1fr' }}>
+                {pendingGames.length > 0 && <strong style={{marginRight: `auto`}}>Juego</strong>}
+                {pendingGames.length > 0 && isOwner && <strong>¿Completado?</strong>}
+                {pendingGames.length > 0 && isOwner && <strong>Eliminar</strong>}
+              </div>
+              {pendingGames.length > 0 ? (
+                pendingGames.map(game => (
+                  <div key={game.id} className='mgl-section-grid' style={{ gridTemplateColumns: isOwner ? '0.6fr 0.2fr 0.2fr' : '1fr' }}>
+                    <Link to={`/game/${game.id}`} className='mgl-link-game'>{game.title}</Link>
+                    {isOwner && (
+                      <>
+                        <UpdateStatusCompleted
+                          gameID={game.id}
+                          userID={userID}
+                          accessToken={accessToken}
+                          refreshGames={getAllGames} />
+                        <UpdateOnList
+                          gameID={game.id}
+                          userID={userID}
+                          accessToken={accessToken}
+                          refreshGames={getAllGames} />
+                      </>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p>Sin juegos pendientes.</p>
+              )}
+            </div>
+
                 {isOwner && (
                 <>
                   <h4 style={{ color: '#2a5285' }}>Quizás te gusten:</h4>

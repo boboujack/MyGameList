@@ -74,7 +74,7 @@
 /*Lo uso en Admin.js y GamePage.js*/
 .mgl-grid-container-two-Objects {
   display: grid;
-  grid-template-columns: auto auto ; /*Cada auto representa una columna*/
+  grid-template-columns: auto auto; /*Cada auto representa una columna*/
   gap: 16px; /* Espacio entre los artículos */
   justify-items: center;
 }
@@ -128,12 +128,6 @@
   width: 100%;
   padding: 10px;
 }
-/* 
-.mgl-gameCard-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
 
 .mgl-gameCard-buttons{
     display: flex;
@@ -156,6 +150,7 @@
   color: #000;
   align-items: center;
   font-weight: bold;
+  margin-right: auto;
 }
 
 .mgl-link {
@@ -181,23 +176,33 @@
   justify-content: space-between;
 }
   
-  .mgl-section {
-    flex: 1;
-    color: #2a5285;
-    border: 2px solid #2a5285;
-    margin: 0 10px;
-    padding: 10px 46px; /* Espacio 10px superior 46px lateral */
-    width: 100%; /* Ancho relativo al contenedor */
-    max-width: 520px; /* Máximo ancho permitido */
-    min-width: 380px; /* Máximo ancho permitido */
-  }
+.mgl-section {
+  flex: 1;
+  color: #2a5285;
+  border: 2px solid #2a5285;
+  margin: 0 10px;
+  padding: 10px 46px; /* Espacio 10px superior 46px lateral */
+  width: 100%; /* Ancho relativo al contenedor */
+  min-width: 380px; /* Máximo ancho permitido */
+}
 
-  .mgl-userProfileGames{
-    display: flex;
-    color: #000000;
-    justify-content: space-between;
-    width: 100%; /* Ancho completo del contenedor padre (mgl-section)*/
-  }
+.mgl-section-grid {
+  display: grid;
+  /* grid-template-columns: 0.5fr 0.2fr 0.3fr; */
+  align-items: center; /* Eje vertical */
+  width: 100%;
+  margin: 5px 0; /* Espacio entre las filas */
+}
+
+.mgl-section-grid.header {
+  font-weight: bold;
+}
+
+.mgl-userProfileGames{
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /* Ancho completo del contenedor padre (mgl-section)*/
+}
 
   label {
     display: flex;
