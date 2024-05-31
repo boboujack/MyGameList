@@ -11,6 +11,7 @@ const HomePage = ({ accessToken, setAccessToken, userID, setUserID, setUserName,
     const [games, setGames] = useState([])
     const [users, setUsers] = useState([])
 
+
     useEffect(() => {
         getAllGames();
         getAllUsers();
@@ -26,14 +27,15 @@ const HomePage = ({ accessToken, setAccessToken, userID, setUserID, setUserName,
     }
 
 
-  //Filtra la lista de todos los usuarios, menos del que ha hecho login y no sea Admin (ID= 8)
-  const otherUsers = users.filter(user => user.id !== userID && user.role !== "admin");
+  /*Filtra la lista de todos los usuarios, menos del que ha hecho login y no sea Admin 
+  y usamos localStorage, porque si abrimos una nueva pestaña los datos del prop se pierden */
+  const otherUsers = users.filter(user => user.id !== parseInt(localStorage.getItem('userID')) && user.role !== "admin");
 
   return (
     <>
     <div>
     <NavBar 
-          accessToken={accessToken} 
+          accessToken={localStorage.getItem('accessToken')} 
           setAccessToken={setAccessToken} 
           setUserID={setUserID} 
           setUserName={setUserName} 

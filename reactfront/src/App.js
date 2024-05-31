@@ -14,7 +14,8 @@ import StoreGame from './components/StoreGame';
 import UpdateGame from './components/UpdateGame';
 
 function App() {
-  /*Props*/
+  /*Props, a diferencia de localStorage, estos no se mantienen
+  cuando se recarga la página*/
   const [accessToken, setAccessToken] = useState(null);
   const [userID, setUserID] = useState(null);
   const [userName, setUserName] = useState(null);

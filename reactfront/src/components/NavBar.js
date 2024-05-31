@@ -19,18 +19,25 @@ const NavBar = ({ accessToken, setAccessToken, setUserID, setUserName, setUserRo
           }
       });
         console.log('Logout response:', response.data);
-        // Limpiar el token de acceso en el estado global o local
+        // Limpiamos las variables en el estado global o local
         setAccessToken(null);
         setUserID(null); 
         setUserName(null); 
         setUserRole(null);
+
+        // Limpiamos los localStorage
+        localStorage.removeItem('userID');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('accessToken');
     } catch (error) {
         console.error('Error al cerrar sesión:', error);
         alert('Se ha producido un error al cerrar sesión. Por favor, intenta nuevamente más tarde.');
     }
   };
-
-  console.log('NavBar userID:', userID);
+  
+  const storedAccessToken = localStorage.getItem('accessToken');
+  // console.log('NavBar userID:', userID);
   return (
     <nav className="mgl-navBar">
       <div className="mgl-navContainer">
@@ -39,7 +46,7 @@ const NavBar = ({ accessToken, setAccessToken, setUserID, setUserName, setUserRo
         </Link>
         <div className="mgl-navRight">
             {/* Si hay un accessToken : sino tenemos accessToken*/}
-            {accessToken ? (
+            {storedAccessToken ? (
             <>
               <button onClick={handleLogout} className='mgl-loginLogoutButton'>Cerrar sesión</button>
               {userRole !== "admin" && (

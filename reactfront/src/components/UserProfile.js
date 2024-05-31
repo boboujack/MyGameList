@@ -8,27 +8,37 @@ import UpdateOnList from './UpdateOnList';
 
 const endpoint = 'https://demolaravel.ddns.net/api'
 
-const UserProfile = ({ accessToken, setAccessToken, userID, setUserID, userName, setUserName, userRole, setUserRole } ) => {
+const UserProfile = ({ accessToken, setAccessToken, userID, setUserID, setUserName, userRole, setUserRole } ) => {
     //Sacamos el id de la URL
     const { id } = useParams();
     const [games, setGames] = useState([]);
     const [profileName, setProfileName] = useState('');
+    /*Usamos localStorage, porque si abrimos una nueva pestaña
+    los datos del prop se pierden*/
+    const auxUserID = localStorage.getItem('userID');
     /*Con esta constante verificamos si el usuario logeado
     es el propietario del perfil */
-    const isOwner = parseInt(id) === userID;
+    const isOwner = parseInt(id) === parseInt(auxUserID);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
       if (id) {
         getAllGames();
       }
-    }, [id]);
+      console.log('parseInt(id); ', parseInt(id), ' Profile ID: ', id, ' User ID: ', userID, ' Owner: ', isOwner)
+    }, [id, userID]);
 
     const getAllGames = async () => {
-      const response = await axios.get(`${endpoint}/users/${id}`);
+      try {
+        const response = await axios.get(`${endpoint}/users/${id}`);
         console.log(response.data);
-        setGames(response.data)
-        setProfileName(response.data[0].name); //Sacamos el nombre del user propietario del perfil
-    }
+        setGames(response.data);
+        setProfileName(response.data[0].name);//Sacamos el nombre del user propietario del perfil
+        setLoading(false); //Cuando tenemos todos los juegos del usuario id
+      } catch (error) {
+        console.error('Error al obtener los juegos:', error);
+      }
+    };
 
     const completedGames = games.filter(game => game.statusCompleted === 1 && game.onList === 1);
     const pendingGames = games.filter(game => game.statusCompleted === 0 && game.onList === 1);
@@ -48,7 +58,7 @@ const UserProfile = ({ accessToken, setAccessToken, userID, setUserID, userName,
             />
           </div>
     
-          {!games.length ? (
+          {loading ? (
             <div className='mgl-divBellowNav'>Cargando...</div>
           ) : (
             <>
@@ -67,7 +77,7 @@ const UserProfile = ({ accessToken, setAccessToken, userID, setUserID, userName,
                 <h2>Completados</h2>
                 {/* Según el valor de isOwner ajustamos las columnas */}
                 <div className='mgl-section-grid header' style={{ gridTemplateColumns: isOwner ? '0.6fr 0.2fr 0.2fr' : '1fr' }}>
-                  {completedGames.length > 0 && <strong style={{marginRight: `auto`}}>Juego</strong>}
+                  {completedGames.length > 0 && isOwner && <strong style={{marginRight: `auto`}}>Juego</strong>}
                   {completedGames.length > 0 && isOwner && <strong>¿Completado?</strong>}
                   {completedGames.length > 0 && isOwner && <strong>Eliminar</strong>}
                 </div>
@@ -102,7 +112,7 @@ const UserProfile = ({ accessToken, setAccessToken, userID, setUserID, userName,
               <h2>Pendientes</h2>
               {/* Según el valor de isOwner ajustamos las columnas */}
               <div className='mgl-section-grid header' style={{ gridTemplateColumns: isOwner ? '0.6fr 0.2fr 0.2fr' : '1fr' }}>
-                {pendingGames.length > 0 && <strong style={{marginRight: `auto`}}>Juego</strong>}
+                {pendingGames.length > 0 && isOwner && <strong style={{marginRight: `auto`}}>Juego</strong>}
                 {pendingGames.length > 0 && isOwner && <strong>¿Completado?</strong>}
                 {pendingGames.length > 0 && isOwner && <strong>Eliminar</strong>}
               </div>
@@ -177,5 +187,3 @@ const UserProfile = ({ accessToken, setAccessToken, userID, setUserID, userName,
     };
 
 export default UserProfile
-
-

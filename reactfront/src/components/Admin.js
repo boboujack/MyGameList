@@ -17,6 +17,7 @@ const Admin = ({ accessToken, setAccessToken, userID, setUserID, userName, setUs
             navigate('/'); // Redirige a HomePage si no es administrador
         } else {
             getAllGames();
+            console.log(' User ID: ', userID, ' Role: ', userRole)
             // getAllUsers();
         }
     }, [isAdmin, navigate]);
