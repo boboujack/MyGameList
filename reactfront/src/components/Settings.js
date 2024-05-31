@@ -10,7 +10,12 @@ const endpoint = 'https://demolaravel.ddns.net/api';
 const Settings = ({ accessToken, setAccessToken, userID, setUserID, userName, setUserName, userRole, setUserRole }) => {
   const { id } = useParams(); // Obtener el ID de la URL
   const navigate = useNavigate();
-  const isOwner = parseInt(id) === userID;
+  /*Usamos localStorage, porque si abrimos una nueva pestaña
+  los datos del prop se pierden*/
+  const auxUserID = localStorage.getItem('userID');
+  /*Con esta constante verificamos si el usuario logeado
+  es el propietario del perfil */
+  const isOwner = parseInt(id) === parseInt(auxUserID);
 
   const [name, setName] = useState('');
   const [mail, setMail] = useState('');
