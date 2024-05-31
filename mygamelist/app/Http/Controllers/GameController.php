@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 //Usaremos esta clase para la que la función indexAllGames no se ejecute tantas veces
 use Illuminate\Support\Facades\Cache;
@@ -43,9 +44,7 @@ class GameController extends Controller
         }
     
         return response()->json($formattedGames);
-    
-        /*$games= Game::all();
-        return response()->json($games);*/
+        
     }
 
     //Muestra solo los juegos
@@ -82,13 +81,20 @@ class GameController extends Controller
         // Limpiamos el caché después de agregar un nuevo juego
         Cache::forget('games_all');
 
-        // Obtener todos los usuarios
+        // Obtener todos los usuarios y categorías
         $users = User::all();
-    
+        $categories = Category::all();
+        
         // Asociar el nuevo juego a todos los usuarios con onList = 0
         foreach ($users as $user) {
             $user->games()->attach($game->id, ['onList' => false]);
         }
+
+        // Asociar el nuevo juego a todas las categorias con onCategory = 0
+        foreach ($categories as $category) {
+            $category->games()->attach($game->id, ['onCategory' => false]);
+        }
+        
     
         // Devolver la respuesta JSON
         $data = [
@@ -193,7 +199,6 @@ class GameController extends Controller
 
     //Actualizamos el campo statusCompleted para x game de x user
     public function updateStatusCompleted(Request $request, Game $game){
-    
         // Actualizar el estado de completado en la tabla pivote
         $user_id = $request->user_id;
         $statusCompleted = $request->statusCompleted;
@@ -214,12 +219,47 @@ class GameController extends Controller
         return response()-> json($data);
     }
 
+    //Actualizamos el campo statusCompleted para x game de x user
+    public function updateOnCategory(Request $request, Game $game){
+        // Actualizar el estado de completado en la tabla pivote
+        $category_id = $request->category_id;
+        $onCategory = $request->onCategory;
+        $game->categories()->updateExistingPivot($category_id, ['onCategory' => $onCategory]);
+        
+        // Limpiamos el caché después de actualizar un nuevo juego
+        Cache::forget('games_all');
+        // Limpiamos el caché del juego específico que se ha actualizado
+        Cache::forget('game_' . $game->id);
+
+        /*Buscamos la categoria actualizada, para mostrar en el response
+        los campos que no estén en la tabla games o la pivote */
+        $updatedCategory = $game->categories->find($category_id);
+
+        $game->save();
+        $game->load('categories');
+        //Devolvemos la instancia actualizada
+        $data = [
+            'message' => 'Game updated successfully',
+            'game_category' => [
+                'game_title' => $game->title,
+                'game_id' => $game->id,
+                'category' => $updatedCategory->category,
+                'category_id' => $category_id,
+                'onCategory' => $onCategory
+            ]
+        ];
+        return response()-> json($data);
+    }
+
     //Borra al game con sus relaciones a la tabla pivote
     public function destroy(Game $game)
     {
         try{
             // Eliminar las relaciones en la tabla pivote
             $game->users()->detach();
+
+            // Eliminar las relaciones en la tabla pivote
+            $game->categories()->detach();
     
             $game-> delete();
     
@@ -248,6 +288,18 @@ class GameController extends Controller
         ];
         return response()-> json($data);
     }
+
+    public function attachCategory(Request $request) {
+        $game = Game::find($request->game_id);
+        
+        $game->categories()->attach($request->category_id);
+        $data = [
+            'message' => 'Category attached successfully',
+            'game' => $game
+        ];
+        return response()->json($data);
+    }
+
 
     //Desenlazamos un game con un user
     public function detach(Request $request){

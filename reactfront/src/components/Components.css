@@ -204,15 +204,15 @@
   width: 100%; /* Ancho completo del contenedor padre (mgl-section)*/
 }
 
-  label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  input[type="checkbox"] {
-    margin-right: 8px;
-  }
+label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  margin-right: 8px;
+}
 
 .mgl-button{
   background-color: #2a5285;

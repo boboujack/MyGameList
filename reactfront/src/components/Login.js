@@ -63,6 +63,7 @@ const Login = ({ setAccessToken, setUserID, setUserName, setUserRole }) => {
             type="email"
             id="email"
             name="email"
+            placeholder="Usuario"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required /><br />
@@ -71,6 +72,7 @@ const Login = ({ setAccessToken, setUserID, setUserName, setUserRole }) => {
             type="password"
             id="password"
             name="password"
+            placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required /><br /><br />
