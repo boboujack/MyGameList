@@ -8,22 +8,22 @@ import DeleteAccount from './DeleteAccount';
 const endpoint = 'https://demolaravel.ddns.net/api'
 
 const AdminUsers = ({ accessToken, setAccessToken, userID, setUserID, userName, setUserName, userRole, setUserRole } ) => {
-    const [users, setUsers] = useState([])
-    const navigate = useNavigate();
-    const isAdmin = userRole === 'admin';
+  const [users, setUsers] = useState([])
+  const navigate = useNavigate();
+  const isAdmin = userRole === 'admin';
 
-    useEffect(() => {
-        if (!isAdmin) {
-            navigate('/'); // Redirige a HomePage si no es administrador
-        } else {
-            getAllUsers();
-        }
-    }, [isAdmin, navigate]);
+  useEffect(() => {
+      if (!isAdmin) {
+          navigate('/'); // Redirige a HomePage si no es administrador
+      } else {
+          getAllUsers();
+      }
+  }, [isAdmin, navigate]);
 
-    const getAllUsers = async () => {
-      const response = await axios.get(`${endpoint}/allUsers`);
-      setUsers(response.data)
-    }
+  const getAllUsers = async () => {
+    const response = await axios.get(`${endpoint}/allUsers`);
+    setUsers(response.data)
+  }
 
   //Filtra la lista de todos los usuarios, menos del que ha hecho login
   const otherUsers = users.filter(user => user.id !== userID);

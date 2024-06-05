@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Admin from './components/Admin';
 import AdminUsers from './components/AdminUsers';
+import AdminCategories from './components/AdminCategories';
 import HomePage from './components/HomePage';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -48,6 +49,12 @@ function App() {
               userRole={userRole} setUserRole={setUserRole} /> } />
 
         <Route path='/admin/users' element={ <AdminUsers 
+              accessToken={accessToken} setAccessToken={setAccessToken} 
+              userID={userID} setUserID={setUserID}
+              userName={userName} setUserName={setUserName}
+              userRole={userRole} setUserRole={setUserRole} /> } />
+
+        <Route path='/admin/categories' element={ <AdminCategories 
               accessToken={accessToken} setAccessToken={setAccessToken} 
               userID={userID} setUserID={setUserID}
               userName={userName} setUserName={setUserName}

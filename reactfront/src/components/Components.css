@@ -10,6 +10,7 @@
     z-index: 1000; /* Asegurarse de que la barra esté por encima del contenido */
     display: flex;
     align-items: center;
+    margin-bottom: 50px;
 }
 
 /*Ajustamos los elementos del navBar*/
@@ -71,7 +72,14 @@
   border: 2px solid #ffffff; /* Borde exterior */
 }
 
-/*Lo uso en Admin.js y GamePage.js*/
+/*Lo uso en Admin.js*/
+.mgl-grid-container-three-Objects {
+  display: grid;
+  grid-template-columns: auto auto auto; /*Cada auto representa una columna*/
+  gap: 16px; /* Espacio entre los artículos */
+  justify-items: center;
+}
+
 .mgl-grid-container-two-Objects {
   display: grid;
   grid-template-columns: auto auto; /*Cada auto representa una columna*/
@@ -105,6 +113,71 @@
     grid-template-columns: auto auto auto;
     gap: 2px; /* Espacio entre los artículos */
     justify-items: center; /* Centrar los elementos horizontalmente */
+}
+
+.mgl-categoryCard-admin {
+  display: grid; /* Cambiado a display: flex */
+  grid-template-columns: 0.5fr 0.5fr;
+  gap: 10px;
+  color: #ffffff;
+  font-size: .8rem;
+  background: #5a83b9;
+  border: 1px solid #5a83b9;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 10px;
+  max-width: 300px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.mgl-categoryCard {
+  display: flex; /* Cambiado a display: flex */
+  flex-wrap: wrap; /* Permitir que los elementos se ajusten a múltiples líneas si es necesario */
+  flex-direction: column;
+  gap: 10px;
+  color: #ffffff;
+  font-size: .8rem;
+  background: #5a83b9;
+  border: 1px solid #5a83b9;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 10px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.mgl-categoryCard article {
+  flex: 1; /* Permitir que los elementos se expandan para llenar el espacio disponible */
+  justify-content: center;
+  align-items: center;
+  background: #6b9ac4;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+
+.mgl-categoryCardAdmin {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Crea dos columnas de igual tamaño */
+  gap: 10px;
+  color: #ffffff;
+  font-size: .8rem;
+  width: 100%;
+  background: #5a83b9;
+  border: 1px solid #5a83b9;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.mgl-categoryCardAdmin article {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #6b9ac4;
+  padding: 10px;
+  border-radius: 4px;
 }
 
 .mgl-gameCard {
@@ -175,7 +248,14 @@
   display: flex;
   justify-content: space-between;
 }
-  
+
+.mgl-homePage-grid {
+  display: grid;
+  grid-template-columns: 0.84fr 0.16fr;
+  width: 100%;
+  margin: 5px 0; /* Espacio entre las filas */
+}
+
 .mgl-section {
   flex: 1;
   color: #2a5285;
@@ -299,4 +379,40 @@ input[type="checkbox"] {
 .mgl-button-delete:hover {
   background-color: #b12828; 
   color: #ffffff;
+}
+
+
+#search-bar .mgl-search-box{
+  height: 30px;
+  display: flex;
+  cursor: pointer;
+  padding: 10px 20px;
+  background: #fff;
+  border: 2px solid #2a5285;
+  border-radius: 30px;
+  border-color: #2a5285;
+  align-items: center;
+  box-shadow: #2a5285;
+  width: 320px;
+  margin-bottom: 25px;
+}
+
+#search-bar .mgl-search-box:hover input,
+#search-bar .mgl-search-box input:focus {
+  width: 400px;
+}
+
+#search-bar .mgl-search-box input{
+  width: 0;
+  outline: none;
+  border: none;
+  font-weight: 500;
+  transition: 0.8s;
+  background: transparent;
+}
+
+#search-bar .mgl-search-icon{
+  /* font-size: 18px; */
+  width: 24px;
+  height: 24px;
 }

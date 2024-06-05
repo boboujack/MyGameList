@@ -62,9 +62,10 @@ const Admin = ({ accessToken, setAccessToken, userID, setUserID, userName, setUs
     ) : (
       <>
       <div className='mgl-divBellowNav'>
-        <div className='mgl-grid-container-two-Objects'>
+        <div className='mgl-grid-container-three-Objects'>
           <Link to={`/store`} className='mgl-button'>Añadir juego</Link>
           <Link to={'/admin/users'} className='mgl-button'>Gestión de usuarios</Link>
+          <Link to={'/admin/categories'} className='mgl-button'>Gestión de categorías</Link>
         </div>
       </div>
       

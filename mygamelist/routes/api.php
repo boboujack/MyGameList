@@ -24,13 +24,13 @@ Route::middleware('api')->group(function () {
 
     //Funciones de CategoryController
     Route::get('/categories', 'App\Http\Controllers\CategoryController@index');
+    Route::get('/categoriesWithGames', 'App\Http\Controllers\CategoryController@indexWithGames');
     Route::post('/categories', 'App\Http\Controllers\CategoryController@store');
     Route::get('/categories/{category}', 'App\Http\Controllers\CategoryController@show');
+    Route::get('/gamesCategories/{category}', 'App\Http\Controllers\CategoryController@showGamesCategories');
     Route::put('/categories/{category}', 'App\Http\Controllers\CategoryController@update');
     Route::delete('/categories/{category}', 'App\Http\Controllers\CategoryController@destroy');
 
-
-    
 
     //Funciones de GameController
     Route::get('/games', 'App\Http\Controllers\GameController@index');

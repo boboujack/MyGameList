@@ -17,4 +17,5 @@ class Category extends Model
     {
         return $this->belongsToMany(Game::class, 'category_game_list')->withPivot('onCategory')->withTimestamps();
     }
+    
 }

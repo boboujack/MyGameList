@@ -16,9 +16,10 @@ const UpdateStatusCompleted = ({ gameID, userID, accessToken, refreshGames }) =>
             Authorization: `Bearer ${accessToken}`
           }
         });
-
         const game = response.data.game;
         const userGameData = game.users.find(user => user.id === userID);
+        
+        console.log('User data:', userGameData);
         
         if (userGameData) {
           setStatusCompleted(userGameData.pivot.statusCompleted);
@@ -32,7 +33,7 @@ const UpdateStatusCompleted = ({ gameID, userID, accessToken, refreshGames }) =>
   }, [gameID, userID, accessToken]);
 
   //Alternamos el valor de statusCompleted
-  const handleToggleOnList = async () => {
+  const handleToggleStatusCompleted = async () => {
     try {
       const response = await axios.put(`${endpoint}/games/statusCompleted/${gameID}`, {
         user_id: userID,
@@ -61,7 +62,7 @@ const UpdateStatusCompleted = ({ gameID, userID, accessToken, refreshGames }) =>
       <input
         type="checkbox"
         checked={statusCompleted}
-        onChange={handleToggleOnList}
+        onChange={handleToggleStatusCompleted}
       />
     </label>
   );

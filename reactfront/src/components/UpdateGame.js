@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import NavBar from './NavBar';
 import './Components.css'
+import UpdateOnCategory from './UpdateOnCategory';
 
 const endpoint = 'https://demolaravel.ddns.net/api';
 
@@ -14,6 +15,7 @@ const UpdateGame = ({ accessToken, setAccessToken, userID, setUserID, setUserNam
     const navigate = useNavigate();
     const { id } = useParams();
     const isAdmin = userRole === 'admin';
+    const [categories, setCategories] = useState([])
 
     const update = async (e) => {
         e.preventDefault();
@@ -37,9 +39,18 @@ const UpdateGame = ({ accessToken, setAccessToken, userID, setUserID, setUserNam
     useEffect(() => {
         if (!isAdmin) {
             navigate('/'); // Redirige a HomePage si no es administrador
+        }else{
+            getAllCategories();
         }
-    }, [isAdmin, navigate]);
+    }, [isAdmin, navigate, id]);
 
+    
+    const getAllCategories = async () => {
+      const response = await axios.get(`${endpoint}/categories`);
+      setCategories(response.data)
+    }
+
+    //Cargamos el juego cada vez que cambia el id
     useEffect(() => {
         const getGameById = async () => {
             try {
@@ -111,6 +122,21 @@ const UpdateGame = ({ accessToken, setAccessToken, userID, setUserID, setUserNam
                     </div>
                     <button type='submit' className='mgl-button'>Actualizar</button>
                 </form>
+                <h3 style={{ color: '#2a5285' }} >Categorías</h3>
+                <div className='mgl-categoryCardAdmin'>
+                    {categories.map(category => (
+                    <article key={category.id}>
+                        <strong>{category.category}</strong>
+                        <UpdateOnCategory
+                            gameID={id}
+                            categoryID={category.id}
+                            accessToken={accessToken}
+                            refreshCategories={getAllCategories}
+                        />
+                    </article>
+                    ))}
+                </div>
+
             </div>
         )}
         </>

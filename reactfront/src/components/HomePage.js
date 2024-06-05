@@ -10,6 +10,7 @@ const endpoint = 'https://demolaravel.ddns.net/api'
 const HomePage = ({ accessToken, setAccessToken, userID, setUserID, setUserName, userRole, setUserRole } ) => {
     const [games, setGames] = useState([])
     const [users, setUsers] = useState([])
+    const [searchGame, setSearchGame] = useState('');
 
 
     useEffect(() => {
@@ -26,10 +27,30 @@ const HomePage = ({ accessToken, setAccessToken, userID, setUserID, setUserName,
       setUsers(response.data)
     }
 
+    /*Manejo de cambios en la barra de búsqueda */
+    const handleSearchGameChange = (event) => {
+      setSearchGame(event.target.value);
+    };
+
+    const filteredGames = games.filter((game) =>
+      game.title.toLowerCase().includes(searchGame.toLowerCase())
+    );
+    
+
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleInputFocus = () => {
+      setIsFocused(true);
+    };
+
+    const handleInputBlur = () => {
+      setIsFocused(false);
+    };
 
   /*Filtra la lista de todos los usuarios, menos del que ha hecho login y no sea Admin 
   y usamos localStorage, porque si abrimos una nueva pestaña los datos del prop se pierden */
   const otherUsers = users.filter(user => user.id !== parseInt(localStorage.getItem('userID')) && user.role !== "admin");
+  // console.log('Otros usuarios: ', otherUsers);
 
   return (
     <>
@@ -50,8 +71,30 @@ const HomePage = ({ accessToken, setAccessToken, userID, setUserID, setUserName,
     ) : (
       <>
       <div className='mgl-divBellowNav'>
+        {/* <input
+            type="text"
+            placeholder="Buscar juego por título"
+            value={searchGame}
+            onChange={handleSearchGameChange}
+        /><br/> */}
+        <div id="search-bar" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div className={`mgl-search-box ${isFocused ? 'focused' : ''}`}>
+                <input
+                  type="text"
+                  placeholder="Buscar juego por título"
+                  value={searchGame}
+                  onChange={handleSearchGameChange}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                />
+                <img src="https://demolaravel.ddns.net/images/search.png" alt="Search" className="mgl-search-icon" />
+            <br/>
+            </div>
+          </div>
+
+
         <div className='mgl-grid-game-container'>
-          {games.map(game => (
+          {filteredGames.map(game => (
             <article className="mgl-gameCard" key={game.id}>
               <header className="mgl-header">
                   <img className= "mgl-covers" src={game.image_url} alt="Imagen del juego"/>

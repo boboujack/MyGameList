@@ -162,7 +162,7 @@ const UserProfile = ({ accessToken, setAccessToken, userID, setUserID, setUserNa
                                     gameID={game.id} 
                                     userID={userID} 
                                     accessToken={accessToken}
-                                    /*Enviamos la función como prop a UpdateStatusCompleted,
+                                    /*Enviamos la función como parámetro a UpdateStatusCompleted,
                                     para que cuando actualice el status refresque la lista*/
                                     refreshGames={getAllGames}
                                   />

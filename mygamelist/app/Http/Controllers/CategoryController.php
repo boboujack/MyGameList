@@ -14,6 +14,25 @@ class CategoryController extends Controller
         return response()->json($categories);
     }
 
+    public function indexWithGames()
+    {
+        $categories = Category::with('games')->get();
+        $formattedResult = [];
+    
+        foreach ($categories as $category) {
+            foreach ($category->games as $game) {
+                $formattedResult[] = [
+                    'category_id' => $category->id,
+                    'category' => $category->category,
+                    'game_id' => $game->id,
+                    'onCategory' => $game->pivot->onCategory
+                ];
+            }
+        }
+    
+        return response()->json($formattedResult);
+    }
+
     public function store(Request $request)
     {
         $category = new Category;
@@ -45,6 +64,30 @@ class CategoryController extends Controller
         }
 
         return response()->json($category);
+    }
+
+    /*Mostramos los datos de la categoría, y su estado en cada juego */
+    public function showGamesCategories($id)
+    {
+        $category = Category::with('games')->find($id);
+
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+
+        $formattedCategory = [
+            'id' => $category->id,
+            'category' => $category->category,
+            'games' => $category->games->map(function ($game) {
+                return [
+                    'id' => $game->id,
+                    'title' => $game->title,
+                    'onCategory' => $game->pivot->onCategory
+                ];
+            }),
+        ];
+
+        return response()->json($formattedCategory);
     }
 
     public function update(Request $request, Category $category)

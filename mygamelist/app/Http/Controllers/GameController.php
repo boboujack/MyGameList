@@ -107,9 +107,10 @@ class GameController extends Controller
     //Devolvemos el juego
     public function show(Game $game)
     {
-        /*Almacenasmos en cache la petición, de cada juego */
+        /*Almacenamos en cache la petición, de cada juego */
         $data = Cache::remember('game_' . $game->id, 600, function () use ($game) {
-            $game->load('users'); // Cargar los datos de la tabla pivote para un juego específico
+            $game->load('users');
+            $game->load('categories');
             
             \Log::info('Showing game ' . $game->id);
             return [
@@ -120,17 +121,7 @@ class GameController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Game $game)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Game $game)
     {
         if ($request->has('title')) {
